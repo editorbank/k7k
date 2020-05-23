@@ -1,0 +1,6 @@
+;Расположенный ниже комментарий содержит команды SFX-сценария
+
+Setup=k7k.cmd
+TempMode
+Silent=1
+Overwrite=1

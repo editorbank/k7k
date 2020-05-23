@@ -1,0 +1,91 @@
+<html>
+<head>
+<title>Keeper of the Seven Keys</title>
+<hta:application
+  id="app"
+  applicationName="k7k"
+  singleinstance="yes" 
+  icon="k7k.ico"
+  border="dialog"
+  caption="yes"
+  windowstate="minimize" 
+  maximizebutton="no"
+  minimizebutton="yes"
+  contextmenu="no"
+  navigable="yes"
+  scroll="no"
+  version="0.1"
+/>
+<script language='JScript'>
+  
+  function GetEnvironment(name){
+    var oShell = new ActiveXObject("WScript.Shell");
+    var oSysEnv = oShell.Environment("PROCESS");
+    return oSysEnv(name);
+  }
+
+  function RegReadString(ParaName,Default){
+    try{
+      var _RegLib_Shell= new ActiveXObject("WScript.Shell");
+      return _RegLib_Shell.RegRead(ParaName);
+    }catch(e){
+      return Default; 
+    }
+  }
+  function RegWriteString(ParaName,Value){
+    try{
+      var _RegLib_Shell= new ActiveXObject("WScript.Shell");
+      _RegLib_Shell.RegWrite(ParaName,Value, "REG_SZ");
+      return true;
+    }catch(e){
+      return false; 
+    }
+  }
+
+
+  function body_onload(){
+    window.focus();
+    window.resizeTo(640,410);
+  }
+  function body_onkeypress(evt){
+    window.alert(typeof evt);
+  }
+  var RegRoot="HKEY_CURRENT_USER\\Software\\k7k\\"
+  function KeepKey(n,v){return RegWriteString(RegRoot+n,v)};
+  function ReadKey(n){return RegReadString(RegRoot+n,"")};
+
+  function setKey(n){
+    var v=window.clipboardData.getData("Text");
+    if(!v)v="";
+    if(!KeepKey(n,window.prompt("Заклинание для ключа №"+n+":",v)))
+      window.alert("Ключ №"+n+" не удалось укромно спрятать!");
+    }
+  function getKey(n){
+    if(window.event.ctrlKey) return setKey(n);
+    var v=ReadKey(n);
+    if(v){
+      window.clipboardData.setData("Text",v);
+      window.close();
+    }else{
+      window.alert("Предназначение ключа №"+n+" не известно!\nКликние его с нажатой клавишей [Ctrl]");
+    }
+  }
+  </script>
+<style>
+body{padding:0;margin:0;border:0;}
+</style>
+</head>
+<body onload=body_onload() _onkeypress=body_onkeypress()>
+<MAP NAME="map1">
+<AREA NAME="area1" accesskey="1" title="Alt+1" href="#" onclick="getKey(1)" shape="poly" COORDS="158,1,168,34,169,52,154,59,150,72,140,75,140,87,4,260,64,298,86,276,54,256,169,111,212,67,261,62,285,41,291,19,280,0">
+<AREA NAME="area2" accesskey="2" title="Alt+2" href="#" onclick="getKey(2)" shape="poly" COORDS="129,182,151,184,174,226,150,253,149,286,145,332,155,335,155,346,142,364,126,361,124,284,123,257,100,220">
+<AREA NAME="area3" accesskey="3" title="Alt+3" href="#" onclick="getKey(3)" shape="poly" COORDS="251,84,280,83,333,159,333,209,325,231,302,239,270,218,252,349,286,352,277,386,243,395,206,392,231,209,194,222,173,206,184,174,182,149">
+<AREA NAME="area4" accesskey="4" title="Alt+4" href="#" onclick="getKey(4)" shape="poly" COORDS="362,205,332,230,332,268,354,287,352,354,332,379,344,407,381,408,385,379,371,360,378,292,406,274,408,240,380,206">
+<AREA NAME="area5" accesskey="5" title="Alt+5" href="#" onclick="getKey(5)" shape="poly" COORDS="440,104,399,137,395,199,439,251,440,363,434,373,438,409,473,408,470,373,503,369,499,303,467,303,469,253,516,199,514,153,476,106">
+<AREA NAME="area6" accesskey="6" title="Alt+6" href="#" onclick="getKey(6)" shape="poly" COORDS="555,189,548,202,551,214,506,236,497,259,502,282,545,316,545,406,603,409,577,394,575,325,628,293,631,258,584,219,585,202,576,190">
+<AREA NAME="area7" accesskey="7" title="Alt+7" href="#" onclick="getKey(7)" shape="poly" COORDS="314,18,307,38,311,52,325,71,370,78,375,57,470,71,475,92,522,110,578,98,615,73,618,54,597,33,576,20,541,3,494,5,479,19,474,28">
+<AREA NAME="area8" accesskey="0" title="Alt+0 Выход" href="#" onclick="window.close()" shape="poly" COORDS="2,0,0,67,65,54,93,23,100,0">
+</MAP>
+<img id=img usemap=#map1 src=k7k.jpg border=0>
+</body>
+</html>

